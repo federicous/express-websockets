@@ -29,7 +29,7 @@ socketIOServer.on('connection', socket =>{
 			data
 		}
 		productos.push(res)
-		socketIOServer.sockets.emit('fillP', productos)
+		socketIOServer.sockets.emit('listenserver', productos)
 	})
 	socket.emit('MI SALA', 'hola, desde la sala');
 	console.log(`Nuevo usuario: ${socket.id}`);

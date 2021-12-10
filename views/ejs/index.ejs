@@ -47,6 +47,9 @@
 				<%- include('./partials/formulario'); %>
 				<%- include('./partials/productos'); %>
 		</span>
+		<div id="verProductos">
+
+		</div>
 	</div>
 	<script>
 		let socket=io();
@@ -58,18 +61,21 @@
 
 			const formData = new FormData(form);
 			const plainFormData = Object.fromEntries(formData.entries());
-			const formDataJsonString = JSON.stringify(plainFormData);
+			// const formDataJsonString = JSON.stringify(plainFormData);
 			console.log(plainFormData);
 
 			socket.emit('fillP', plainFormData)
 
 		});
 
+		let verProductos= document.getElementById('verProductos')
 
 
-
-		socket.on('fillP', data=>{
+		socket.on('listenserver', data=>{
 			console.log('info desde server', data);
+			verProductos.innerHTML = `<h4>${data[1].data.name}</h4>
+			<h4>${data[1].data.price}</h4>
+			<h4>${data[1].data.image}</h4>`;
 		})
 
 	</script>
