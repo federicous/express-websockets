@@ -14,8 +14,9 @@ app.set('views', path.join(__dirname, 'views', 'ejs'))
 app.set('view engine', 'ejs');
 
 
-app.get("/", (req, res, next)=>{
-	res.render('index',{});
+app.get("/", async(req, res, next)=>{
+	let total= await misProductos.getAll();
+	res.render('index',{productList: total, listExist: total.length});
 })
 
 let misProductos = new Contenedor('./public/productos.txt')
@@ -36,6 +37,8 @@ socketIOServer.on('connection', socket =>{
 	})
 	socket.emit('MI SALA', 'hola, desde la sala');
 	console.log(`Nuevo usuario: ${socket.id}`);
+	// Utilizo el archivo
+	
 })
 
 httpServer.listen(PORT, ()=>{
