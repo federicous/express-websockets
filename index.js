@@ -1,6 +1,7 @@
 const express = require('express');
 let app = express();
 let path = require('path')
+let Contenedor=require('./public/manejadorDocumentos')
 let {Server:HttpServer} = require('http')
 let {Server:SocketIO} = require('socket.io');
 const PORT = 3000;
@@ -17,6 +18,7 @@ app.get("/", (req, res, next)=>{
 	res.render('index',{});
 })
 
+let misProductos = new Contenedor('./public/productos.txt')
 let productos= [];
 
 let httpServer = new HttpServer(app);
@@ -29,6 +31,7 @@ socketIOServer.on('connection', socket =>{
 			data
 		}
 		productos.push(res)
+		// replico la info a todos los conectados
 		socketIOServer.sockets.emit('listenserver', productos)
 	})
 	socket.emit('MI SALA', 'hola, desde la sala');

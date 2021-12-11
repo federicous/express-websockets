@@ -40,15 +40,13 @@
 		</div>
 	</nav>
 
-	<h1>App con Socket.IO</h1>
-
 	<div class="container">
+	<h1 class="d-flex justify-content-center m-4">App con Socket.IO</h1>
 		<span>
 				<%- include('./partials/formulario'); %>
 				<%- include('./partials/productos'); %>
 		</span>
 		<div id="verProductos">
-
 		</div>
 	</div>
 	<script>
@@ -58,7 +56,6 @@
 		formProducts.addEventListener("submit", (event) =>{
 			event.preventDefault();
 			const form = event.currentTarget;
-
 			const formData = new FormData(form);
 			const plainFormData = Object.fromEntries(formData.entries());
 			// const formDataJsonString = JSON.stringify(plainFormData);
@@ -69,13 +66,30 @@
 		});
 
 		let verProductos= document.getElementById('verProductos')
-
-
+		let tablaProductos= document.getElementById('tablaProductos')
 		socket.on('listenserver', data=>{
 			console.log('info desde server', data);
-			verProductos.innerHTML = `<h4>${data[1].data.name}</h4>
-			<h4>${data[1].data.price}</h4>
-			<h4>${data[1].data.image}</h4>`;
+			if (data.length) {
+				console.log(data.length);
+				for (const prod of data) {
+					verProductos.innerHTML = `<h4>${prod.data.name}</h4>
+						<h4>${prod.data.price}</h4>
+						<h4>${prod.data.image}</h4>`;	
+					let nuevaFila = document.createElement("tr");
+					nuevaFila.innerHTML= `
+						<tr>
+							<th scope="row">${prod.id}</th>
+							<td>
+								<img class="img-thumbnail" style="height: 80px;" src=${prod.data.image} alt="">
+							</td>
+							<td>${prod.data.name}</td>
+							<td>${prod.data.price}</td>
+						</tr>`	
+					tablaProductos.appendChild(nuevaFila);
+				}
+			} else {
+				verProductos.innerHTML = `<h4>No hay productos</h4>`;
+			}
 		})
 
 	</script>

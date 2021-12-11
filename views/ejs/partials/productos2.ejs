@@ -1,0 +1,27 @@
+<h1>Vista de Productos</h1>
+<% if(listExist){ %>
+	<table class="table table-dark table-hover">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col"></th>
+				<th scope="col">Name</th>
+				<th scope="col">Price</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% productList.forEach(function(item){ %>
+			<tr>
+				<th scope="row"><%= item.id %></th>
+				<td>
+					<img class="img-thumbnail" style="height: 80px;" src=<%= item.image %> alt="">
+				</td>
+				<td><%= item.name %></td>
+				<td><%= item.price %></td>
+			</tr>
+			<% }); %>
+		</tbody>
+	</table>
+<% } else{ %>
+<h2>No se encontraron productos</h2>
+<% } %>
