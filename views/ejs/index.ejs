@@ -45,14 +45,14 @@
 		<span>
 				<%- include('./partials/formulario'); %>
 				<%- include('./partials/productos'); %>
-				<%- include('./partials/productos2'); %>
+				<!-- <%- include('./partials/productos2'); %> -->
 		</span>
 		<div id="verProductos">
 		</div>
 	</div>
 	<script>
 		let socket=io();
-		
+	/* ############################ Enviar datos del Formulario ############################# */	
 		const formProducts = document.getElementById("formProducts");
 		formProducts.addEventListener("submit", (event) =>{
 			event.preventDefault();
@@ -61,31 +61,33 @@
 			const plainFormData = Object.fromEntries(formData.entries());
 			// const formDataJsonString = JSON.stringify(plainFormData);
 			console.log(plainFormData);
-			// Enviar al Servidor los datos del formulario:
+		// Enviar al Servidor los datos del formulario:
 			socket.emit('fillP', plainFormData)
 
 		});
-
+	/* ############################ Recibir datos del Servidor ############################# */	
 		let verProductos= document.getElementById('verProductos')
 		let tablaProductos= document.getElementById('tablaProductos')
 	// Escuchando el Servidor:
 		socket.on('listenserver', data=>{
 			console.log('info desde server', data);
+			tablaProductos.innerHTML="";
+			// Renderizo los datos en una tabla
 			if (data.length) {
 				console.log(data.length);
 				for (const prod of data) {
-					verProductos.innerHTML = `<h4>${prod.data.name}</h4>
-						<h4>${prod.data.price}</h4>
-						<h4>${prod.data.image}</h4>`;	
 					let nuevaFila = document.createElement("tr");
-					nuevaFila.innerHTML= `
+/* 					nuevaFila.innerHTML= `
 						<tr>
-							<th scope="row">${prod.id}</th>
-							<td>
-								<img class="img-thumbnail" style="height: 80px;" src=${prod.data.image} alt="">
-							</td>
+							<td><img class="img-thumbnail" style="height: 80px;" src=${prod.data.image} alt="">							</td>
 							<td>${prod.data.name}</td>
 							<td>${prod.data.price}</td>
+						</tr>`	 */
+					nuevaFila.innerHTML= `
+						<tr>
+							<td><img class="img-thumbnail" style="height: 80px;" src=${prod.image} alt="">							</td>
+							<td>${prod.name}</td>
+							<td>${prod.price}</td>
 						</tr>`	
 					tablaProductos.appendChild(nuevaFila);
 				}
@@ -93,6 +95,15 @@
 				verProductos.innerHTML = `<h4>No hay productos</h4>`;
 			}
 		})
+
+		socket.on("init", data =>{
+                	let inner = ``;
+                	console.log("Recibiendo..", data);
+                	data.forEach(element => {
+                		inner += `<b>${element.name}:</b> ${element.mensaje} </br>`;
+                	});
+                	parrafo.innerHTML = inner;
+            	});
 
 	</script>
 
