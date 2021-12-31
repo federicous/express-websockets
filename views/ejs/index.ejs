@@ -48,7 +48,10 @@
 				<!-- <%- include('./partials/productos2'); %> -->
 		</span>
 		<div id="verProductos"></div>
-		<div id="mensajes"></div>
+		<div id="mensajes">
+			<%- include('./partials/mensajes'); %>
+
+		</div>
 	</div>
 	<script>
 		let socket=io();
@@ -93,16 +96,44 @@
 			}
 		})
 
-		socket.on("init", data =>{
-                	let inner = ``;
+	/* ############################ Enviar Mensajes ############################# */	
+	const formMsg = document.getElementById("formMsg");
+		formMsg.addEventListener("submit", (event) =>{
+			event.preventDefault();
+			elMensaje = {
+				name: event.target[0].value,
+				email: event.target[1].value
+			}
+			console.log(`elmensaje ${elMensaje}`);
+			const form = event.currentTarget;
+			const formData = new FormData(form);
+			const plainFormData = Object.fromEntries(formData.entries());
+			// const formDataJsonString = JSON.stringify(plainFormData);
+			// console.log(JSON.stringify(plainFormData));
+		// Enviar al Servidor los datos del formulario:
+			socket.emit('userMsg', plainFormData)
+
+		});
+
+	// Mensajes
+		let chat = document.getElementById("chat");
+		socket.on("chat", data =>{
+                	let contenido = ``;
                 	console.log("Recibiendo..", data);
                 	data.forEach(element => {
-                		inner += `<b>${element.name}:</b> ${element.mensaje} </br>`;
+                		contenido += `<b>${element.email}:</b> ${element.mensaje} </br>`;
                 	});
-                	parrafo.innerHTML = inner;
+                	chat.innerHTML = contenido;
             	});
 
-
+	button.addEventListener("click", e =>{
+        let sendMessagge = {
+                ...student,
+                mensaje: input.value
+            }
+            socket.emit("mensaje", sendMessagge);
+            input.value = "";
+        })
 
 	</script>
 

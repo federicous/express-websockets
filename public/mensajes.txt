@@ -1,0 +1,37 @@
+[
+  {
+    "email": "pepe@gmail.com",
+    "mensaje": "hola mundo",
+    "id": 1
+  },
+  {
+    "email": "pepe@gmail.com",
+    "mensaje": "hola mundo",
+    "id": 2
+  },
+  {
+    "email": "pepe@gmail.com",
+    "mensaje": "hola mundo",
+    "id": 3
+  },
+  {
+    "email": "juan@perez.com",
+    "mensaje": "chauuuu",
+    "id": 4
+  },
+  {
+    "email": "juan@perez.com",
+    "mensaje": "que tal?",
+    "id": 5
+  },
+  {
+    "email": "juan@perez.com",
+    "mensaje": "bien?",
+    "id": 6
+  },
+  {
+    "email": "pepe@gmail.com",
+    "mensaje": "ok",
+    "id": 7
+  }
+]

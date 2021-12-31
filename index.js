@@ -20,11 +20,13 @@ app.get("/", async(req, res, next)=>{
 })
 
 let misProductos = new Contenedor('./public/productos.txt')
+let misMensajes = new Contenedor('./public/mensajes.txt')
 
 let httpServer = new HttpServer(app);
 let socketIOServer = new SocketIO(httpServer);
 
 socketIOServer.on('connection', async socket =>{
+	// Guardo los productos y los envío para que todos conectados lo vean
 	let misProductosGuardados= await misProductos.getAll()
 	await socket.on('fillP', async data =>{
 		await misProductos.save(data)
@@ -34,6 +36,15 @@ socketIOServer.on('connection', async socket =>{
 
 	await socket.emit('listenserver', misProductosGuardados)
 	console.log(`Nuevo usuario: ${socket.id}`);
+
+	// Mensajes
+	let misMensajesGuardados= await misMensajes.getAll()
+	await socket.on('userMsg', async data =>{
+		console.log(data);
+		await misMensajes.save(data)
+		misMensajesGuardados= await misMensajes.getAll()
+		await socketIOServer.sockets.emit('chat', misMensajesGuardados)
+	})
 })
 
 httpServer.listen(PORT, ()=>{
