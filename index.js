@@ -36,23 +36,15 @@ socketIOServer.on('connection', async socket =>{
 		await misProductos.save(data)
 		dataArray.push(data)
 		console.log(data);
-		// console.log(dataArray);
-		// productos.push(res)
-		// replico la info a todos los conectados
-		// socketIOServer.sockets.emit('listenserver', productos)
-		// socketIOServer.sockets.emit('listenserver', dataArray)
+		misProductosGuardados= await misProductos.getAll()
 		await socketIOServer.sockets.emit('listenserver', misProductosGuardados)
 	})
-	// await socketIOServer.sockets.emit('listenserver', misProductosGuardados)
 
-	socket.emit('MI SALA', 'hola, desde la sala');
 	await socket.emit('listenserver', misProductosGuardados)
 	console.log(`Nuevo usuario: ${socket.id}`);
 	console.log(`data arrray: ${dataArray}`);
-	// Utilizo el archivo
 	
 })
-// socketIOServer.init();
 
 httpServer.listen(PORT, ()=>{
 	console.log(`Server on!: http://localhost:${PORT}`)

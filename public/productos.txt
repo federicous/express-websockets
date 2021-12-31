@@ -28,5 +28,11 @@
     "price": "456",
     "image": "https://pisces.bbystatic.com/prescaled/499/500/image2/BestBuy_US/images/products/6009/6009679_sd.jpg",
     "id": 5
+  },
+  {
+    "name": "joeñalks",
+    "price": "987897897",
+    "image": "ksdjfoaisdfajsdfljalsjdfkl",
+    "id": 6
   }
 ]
