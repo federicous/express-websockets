@@ -30,9 +30,9 @@
     "id": 5
   },
   {
-    "name": "joeñalks",
-    "price": "987897897",
-    "image": "ksdjfoaisdfajsdfljalsjdfkl",
+    "name": "pppppp",
+    "price": "9999",
+    "image": "https://developer.mozilla.org/es/",
     "id": 6
   }
 ]

@@ -20,8 +20,6 @@ app.get("/", async(req, res, next)=>{
 })
 
 let misProductos = new Contenedor('./public/productos.txt')
-let productos= [];
-let dataArray=[];
 
 let httpServer = new HttpServer(app);
 let socketIOServer = new SocketIO(httpServer);
@@ -29,21 +27,13 @@ let socketIOServer = new SocketIO(httpServer);
 socketIOServer.on('connection', async socket =>{
 	let misProductosGuardados= await misProductos.getAll()
 	await socket.on('fillP', async data =>{
-		/* let res = {
-			id: socket.id,
-			data
-		} */
 		await misProductos.save(data)
-		dataArray.push(data)
-		console.log(data);
 		misProductosGuardados= await misProductos.getAll()
 		await socketIOServer.sockets.emit('listenserver', misProductosGuardados)
 	})
 
 	await socket.emit('listenserver', misProductosGuardados)
 	console.log(`Nuevo usuario: ${socket.id}`);
-	console.log(`data arrray: ${dataArray}`);
-	
 })
 
 httpServer.listen(PORT, ()=>{

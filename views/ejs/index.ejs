@@ -47,8 +47,8 @@
 				<%- include('./partials/productos'); %>
 				<!-- <%- include('./partials/productos2'); %> -->
 		</span>
-		<div id="verProductos">
-		</div>
+		<div id="verProductos"></div>
+		<div id="mensajes"></div>
 	</div>
 	<script>
 		let socket=io();
@@ -74,17 +74,12 @@
 			tablaProductos.innerHTML="";
 			// Renderizo los datos en una tabla
 			if (data.length) {
-				// getProducts()
+
 				console.log(data.length);
 				for (const prod of data) {
 					// console.log(prod);
 					let nuevaFila = document.createElement("tr");
-/* 					nuevaFila.innerHTML= `
-						<tr>
-							<td><img class="img-thumbnail" style="height: 80px;" src=${prod.data.image} alt="">							</td>
-							<td>${prod.data.name}</td>
-							<td>${prod.data.price}</td>
-						</tr>`	 */
+
 					nuevaFila.innerHTML= `
 						<tr>
 							<td><img class="img-thumbnail" style="height: 80px;" src=${prod.image} alt="">							</td>
@@ -107,46 +102,6 @@
                 	parrafo.innerHTML = inner;
             	});
 
-		    async function getProducts() {
-			const url = "http://localhost:3000/";
-			try {
-				const fetchOptions = {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					"admin":"true",
-					"Accept": "application/json"
-				},
-				
-			};
-
-			const response = await fetch(url, fetchOptions)
-			// .then (response => response.json())
-			.then(()=>console.log(response))
-      			.then (data => {
-      				console.log(data)
-					// if (data.length) {
-					// 	console.log(data.length);
-					// 	for (const prod of data) {
-					// 		let nuevaFila = document.createElement("tr");
-					// 		nuevaFila.innerHTML= `
-					// 			<tr>
-					// 				<td>${prod.id}</td>
-					// 				<td><img class="img-thumbnail" style="height: 80px;" src=${prod.image} alt="">							</td>
-					// 				<td>${prod.name}</td>
-					// 				<td>${prod.price}</td>
-					// 			</tr>`	
-					// 		tablaProductos.appendChild(nuevaFila);
-					// 	}
-					// } else {
-					// 	verProductos.innerHTML = `<h4>No hay productos</h4>`;
-					// }
-			})
-
-			} catch (error) {
-				console.error(error);
-			}
-		}
 
 
 	</script>
