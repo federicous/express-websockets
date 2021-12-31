@@ -39,6 +39,8 @@ socketIOServer.on('connection', async socket =>{
 
 	// Mensajes
 	let misMensajesGuardados= await misMensajes.getAll()
+	await socketIOServer.sockets.emit('chat', misMensajesGuardados)
+	
 	await socket.on('userMsg', async data =>{
 		console.log(data);
 		await misMensajes.save(data)
